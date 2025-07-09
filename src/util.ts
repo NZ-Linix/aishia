@@ -6,6 +6,11 @@ import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
 import "dotenv/config";
 
 import research from "./util_tools/research";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+const EMOJIS_LIST = readFileSync(join("src/_emojis.txt"), "utf-8");
+const SYSTEM_PROMPT_TEMPLATE = readFileSync(join("src/_systemprompt.txt"), "utf-8");
 
 async function generateSystemInstructions(message: Message, client: Client) {
 
@@ -18,19 +23,18 @@ async function generateSystemInstructions(message: Message, client: Client) {
     const second = String(currentTime.getSeconds()).padStart(2, '0');
     const timeString = `Day: ${day}, Month: ${month}, Year: ${year} | Hour: ${hour}, Minute: ${minute}, Second: ${second}`;
 
-    const emojis = process.env.EMOJIS_LIST || "";
+    const emojis = EMOJIS_LIST;
 
     const userInfo = `\nHere is some information about the user:\nUsername: ${message.author.username}\nDisplayname: ${message.member?.displayName ?? message.author.displayName}\n`;
 
-    const template = process.env.SYSTEM_PROMPT_TEMPLATE || "";
+    const template = SYSTEM_PROMPT_TEMPLATE;
 
     const systemInstructions = template
         .replace("{userInfo}", userInfo)
         .replace("{emojis}", emojis)
-        .replace("{timeString}", timeString)
+        .replace("{timeString}", timeString);
 
     return systemInstructions;
-    
 }
 
 async function stringInput(client: Client, interaction: ChatInputCommandInteraction, prompt: string, deleteOptions?: { deleteUser?: boolean, deleteBot?: boolean }, customMessage?: Message) {

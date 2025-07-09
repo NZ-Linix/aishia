@@ -36,10 +36,23 @@ export default {
 
         /* ------------------------------- Get API Key ------------------------------ */
 
-        const mainApiKey = await util.crypt("decrypt", await db.get(`servers/${message.guildId}/apiKey`));
+        let mainApiKey;
+        try {
+            const encryptedApiKey = await db.get(`servers/${message.guildId}/apiKey`);
+            mainApiKey = await util.crypt("decrypt", encryptedApiKey);
+        } catch (error) {
+            mainApiKey = null;
+        }
 
-        const noApiKeyFound = new ContainerBuilder().addTextDisplayComponents( new TextDisplayBuilder().setContent("AISHIA is not setup. Please ask an admin to set the bot up.\nUse the command `/server settings set-apikey`."));
-        if ( !mainApiKey ) { await message.channel.send({ components: [noApiKeyFound], flags: MessageFlags.IsComponentsV2 }); return; }
+        if ( mainApiKey === null || mainApiKey === "" ) {
+
+            const notSetupContainer = new ContainerBuilder().addTextDisplayComponents(
+                new TextDisplayBuilder().setContent("AISHIA is not setup.\nUse the command `/server settings set-apikey`.")
+            );
+            await message.channel.send({ components: [notSetupContainer], flags: MessageFlags.IsComponentsV2 });
+            return;
+
+        }
 
         /* -------------------------- Setup the Groq client ------------------------- */
 
@@ -207,7 +220,17 @@ export default {
         /* ---------------------------- Handling response --------------------------- */
 
         const textDisplay_Response = new TextDisplayBuilder()
-        textDisplay_Response.setContent(finalResult || "Uh oh! <a:kokomi_hsr_sigh:1368156261018767360> There was an error while generating the response.")
+
+        try {
+            textDisplay_Response.setContent(finalResult || "Uh oh! <a:kokomi_hsr_sigh:1368156261018767360> There was an error while generating the response.")
+        } catch (error) {
+            const tooLongContainer = new ContainerBuilder()
+                .addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent("The response was too long to display <a:kokomi_hsr_sigh:1368156261018767360>")
+                );
+            await message.channel.send({ components: [tooLongContainer], flags: MessageFlags.IsComponentsV2 });
+            return;
+        }
         
         const container_Response = new ContainerBuilder()
         .addTextDisplayComponents(textDisplay_Response)
