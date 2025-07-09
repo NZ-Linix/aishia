@@ -9,8 +9,8 @@ import research from "./util_tools/research";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-const EMOJIS_LIST = readFileSync(join("src/_emojis.txt"), "utf-8");
-const SYSTEM_PROMPT_TEMPLATE = readFileSync(join("src/_systemprompt.txt"), "utf-8");
+const EMOJIS_LIST = readFileSync(join("emojis.txt"), "utf-8");
+const SYSTEM_PROMPT_TEMPLATE = readFileSync(join("systemprompt.txt"), "utf-8");
 
 async function generateSystemInstructions(message: Message, client: Client) {
 
