@@ -1,0 +1,49 @@
+{
+  "name": "aishia",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/NZ-Linix/aishia#readme",
+  "bugs": {
+    "url": "https://github.com/NZ-Linix/aishia/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NZ-Linix/aishia.git"
+  },
+  "license": "MIT",
+  "author": "NZ-Linix",
+  "type": "commonjs",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "npm install tsx tsc typescript discord.js @discordjs/builders @discordjs/rest ts-node @types/node chalk dotdatabase express groq-sdk dotenv @types/express firebase-admin axios @types/axios",
+    "start": "tsx ."
+  },
+  "dependencies": {
+    "@discordjs/builders": "^1.11.2",
+    "@discordjs/rest": "^2.2.0",
+    "@types/axios": "^0.9.36",
+    "@types/crypto-js": "^4.2.2",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.17",
+    "axios": "^1.9.0",
+    "chalk": "^5.4.1",
+    "cli-table3": "^0.6.5",
+    "crypto": "^1.0.1",
+    "discord.js": "^14.14.1",
+    "dotdatabase": "^1.0.5",
+    "dotenv": "^16.5.0",
+    "emoji-regex": "^10.4.0",
+    "express": "^5.1.0",
+    "firebase": "^11.10.0",
+    "firebase-admin": "^12.7.0",
+    "google-it": "^1.6.4",
+    "groq-sdk": "^0.21.0",
+    "jsdom": "^26.1.0",
+    "ts-node": "^10.9.2",
+    "tsc": "^2.0.4",
+    "tsx": "^4.19.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
